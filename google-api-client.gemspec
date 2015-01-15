@@ -18,45 +18,22 @@ Gem::Specification.new do |s|
   s.rubygems_version = "1.8.11"
   s.summary = "Package Summary"
 
-  if s.respond_to? :specification_version then
-    s.specification_version = 3
+  # Dependencies used in the main library
+  s.add_runtime_dependency('signet', '~> 0.2.2')
+  s.add_runtime_dependency('addressable', '~> 2.2.2')
+  s.add_runtime_dependency('httpadapter', '~> 1.0.1')
+  s.add_runtime_dependency('autoparse', '~> 0.2.0')
+  s.add_runtime_dependency('json', '>= 1.4.6')
+  s.add_runtime_dependency('extlib', '>= 0.9.15')
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<signet>, ["~> 0.2.2"])
-      s.add_runtime_dependency(%q<addressable>, ["~> 2.2.2"])
-      s.add_runtime_dependency(%q<httpadapter>, ["~> 1.0.0"])
-      s.add_runtime_dependency(%q<json>, [">= 1.4.6"])
-      s.add_runtime_dependency(%q<extlib>, [">= 0.9.15"])
-      s.add_runtime_dependency(%q<launchy>, [">= 2.0.0"])
-      s.add_development_dependency(%q<sinatra>, [">= 1.2.0"])
-      s.add_development_dependency(%q<rake>, [">= 0.9.0"])
-      s.add_development_dependency(%q<rspec>, ["~> 1.2.9"])
-      s.add_development_dependency(%q<rcov>, [">= 0.9.9"])
-      s.add_development_dependency(%q<diff-lcs>, [">= 1.1.2"])
-    else
-      s.add_dependency(%q<signet>, ["~> 0.2.2"])
-      s.add_dependency(%q<addressable>, ["~> 2.2.2"])
-      s.add_dependency(%q<httpadapter>, ["~> 1.0.0"])
-      s.add_dependency(%q<json>, [">= 1.4.6"])
-      s.add_dependency(%q<extlib>, [">= 0.9.15"])
-      s.add_dependency(%q<launchy>, [">= 2.0.0"])
-      s.add_dependency(%q<sinatra>, [">= 1.2.0"])
-      s.add_dependency(%q<rake>, [">= 0.9.0"])
-      s.add_dependency(%q<rspec>, ["~> 1.2.9"])
-      s.add_dependency(%q<rcov>, [">= 0.9.9"])
-      s.add_dependency(%q<diff-lcs>, [">= 1.1.2"])
-    end
-  else
-    s.add_dependency(%q<signet>, ["~> 0.2.2"])
-    s.add_dependency(%q<addressable>, ["~> 2.2.2"])
-    s.add_dependency(%q<httpadapter>, ["~> 1.0.0"])
-    s.add_dependency(%q<json>, [">= 1.4.6"])
-    s.add_dependency(%q<extlib>, [">= 0.9.15"])
-    s.add_dependency(%q<launchy>, [">= 2.0.0"])
-    s.add_dependency(%q<sinatra>, [">= 1.2.0"])
-    s.add_dependency(%q<rake>, [">= 0.9.0"])
-    s.add_dependency(%q<rspec>, ["~> 1.2.9"])
-    s.add_dependency(%q<rcov>, [">= 0.9.9"])
-    s.add_dependency(%q<diff-lcs>, [">= 1.1.2"])
-  end
+  # Dependencies used in the CLI
+  s.add_runtime_dependency('launchy', '>= 2.0.0')
+
+  # Dependencies used in the examples
+  s.add_development_dependency('sinatra', '>= 1.2.0')
+
+  s.add_development_dependency('rake', '>= 0.9.0')
+  s.add_development_dependency('rspec', '~> 1.2.9')
+  s.add_development_dependency('rcov', '>= 0.9.9')
+  s.add_development_dependency('diff-lcs', '>= 1.1.2')
 end
