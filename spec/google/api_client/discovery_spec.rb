@@ -195,6 +195,16 @@ describe Google::APIClient do
         'https://www.googleapis.com/prediction/v1.2/training?data=12345'
     end
 
+    it 'should generate requests against the correct URIs encoding if needed' do
+      request = @client.generate_request(
+        :api_method => @prediction.training.insert,
+        :parameters => {'pageToken' => '++bad=token+for++page='}
+      )
+      method, uri, headers, body = request
+      uri.should ==
+        'https://www.googleapis.com/prediction/v1.2/training?pageToken=%2B%2Bbad%3Dtoken%2Bfor%2B%2Bpage%3D'
+    end
+
     it 'should allow modification to the base URIs for testing purposes' do
       prediction = @client.discovered_api('prediction', 'v1.2')
       prediction.method_base =

@@ -173,12 +173,15 @@ module Google
         query_parameters = parameters.reject do |k, v|
           template_variables.include?(k)
         end
-        if query_parameters.size > 0
-          uri.query_values = (uri.query_values || {}).merge(query_parameters)
+
+        params = ""
+        unless query_parameters.empty?
+          params = "?" + Addressable::URI.form_encode(query_parameters.sort)
         end
+
         # Normalization is necessary because of undesirable percent-escaping
         # during URI template expansion
-        return uri.normalize
+        return uri.normalize + params
       end
 
       ##
