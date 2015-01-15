@@ -374,56 +374,67 @@ describe Google::APIClient do
     end
   end
 
-  describe 'with the latitude API' do
+  describe 'with the analytics API' do
     before do
       @client.authorization = nil
-      @latitude = @client.discovered_api('latitude')
+      @analytics = @client.discovered_api('analytics', 'v3')
+      @parameters = {
+                      "ids" => "ga:666",
+                      "start-date" => "2014-12-12",
+                      "end-date" => "today",
+                      "metrics" => "ga:users"
+                    }
     end
 
     it 'should correctly determine the discovery URI' do
-      @client.discovery_uri('latitude').should ===
-        'https://www.googleapis.com/discovery/v1/apis/latitude/v1/rest'
+      @client.discovery_uri('analytics', 'v3').should ===
+        'https://www.googleapis.com/discovery/v1/apis/analytics/v3/rest'
     end
 
     it 'should find APIs that are in the discovery document' do
-      @client.discovered_api('latitude').name.should == 'latitude'
-      @client.discovered_api('latitude').version.should == 'v1'
+      @client.discovered_api('analytics', 'v3').name.should == 'analytics'
+      @client.discovered_api('analytics', 'v3').version.should == 'v3'
     end
 
     it 'should find methods that are in the discovery document' do
       @client.discovered_method(
-        'latitude.currentLocation.get', 'latitude'
+        'analytics.data.ga.get', 'analytics', 'v3'
       ).name.should == 'get'
     end
 
     it 'should not find methods that are not in the discovery document' do
-      @client.discovered_method('latitude.bogus', 'latitude').should == nil
+      @client.discovered_method('analytics.fake', 'analytics', 'v3').should == nil
     end
 
     it 'should generate requests against the correct URIs' do
       request = @client.generate_request(
-        :api_method => 'latitude.currentLocation.get',
-        :authenticated => false
+        :api_method => 'analytics.data.ga.get',
+        :version => 'v3',
+        :authenticated => false,
+        :parameters => @parameters
+
       )
       method, uri, headers, body = request
       uri.should ==
-        'https://www.googleapis.com/latitude/v1/currentLocation'
+        'https://www.googleapis.com/analytics/v3/data/ga?end-date=today&ids=ga%3A666&metrics=ga%3Ausers&start-date=2014-12-12'
     end
 
     it 'should generate requests against the correct URIs' do
       request = @client.generate_request(
-        :api_method => @latitude.current_location.get,
+        :api_method => @analytics.management.accounts.list,
         :authenticated => false
       )
       method, uri, headers, body = request
       uri.should ==
-        'https://www.googleapis.com/latitude/v1/currentLocation'
+        'https://www.googleapis.com/analytics/v3/management/accounts'
     end
 
     it 'should not be able to execute requests without authorization' do
       result = @client.execute(
-        :api_method => 'latitude.currentLocation.get',
-        :authenticated => false
+        :api_method => 'analytics.data.ga.get',
+        :version => 'v3',
+        :authenticated => false,
+        :parameters => @parameters
       )
       status, headers, body = result.response
       status.should == 401
