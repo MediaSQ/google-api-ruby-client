@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.summary = "Package Summary"
 
   # Dependencies used in the main library
-  s.add_runtime_dependency('signet', '~> 0.2.2')
+  s.add_runtime_dependency('signet', '~> 0.4.5')
   s.add_runtime_dependency('addressable', '~> 2.2.2')
   s.add_runtime_dependency('httpadapter', '~> 1.0.1')
   s.add_runtime_dependency('autoparse', '~> 0.2.0')
