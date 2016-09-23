@@ -101,10 +101,15 @@ module Google
           end
         end
 
+
+          p "Class Name and Schema Name"
+          p schema_class, schema_name
         # It's possible the schema has already been defined. If so, don't
         # redefine it. This means that reloading a schema which has already
         # been loaded into memory is not possible.
         unless schema_class
+
+          
           schema_class = AutoParse.generate(schema_data, :uri => schema_uri)
           if schema_name
             api_version.const_set(schema_name, schema_class)
