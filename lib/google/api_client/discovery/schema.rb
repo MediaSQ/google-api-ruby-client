@@ -91,19 +91,17 @@ module Google
               api_name_string, Module.new
             )
           end
-          if api_name.const_defined?(api_version_string)
+          if api_name.const_defined?(api_version_string, false)
             api_version = api_name.const_get(api_version_string)
           else
             api_version = api_name.const_set(api_version_string, Module.new)
           end
-          if api_version.const_defined?(schema_name)
+          if api_version.const_defined?(schema_name, false)
             schema_class = api_version.const_get(schema_name)
           end
         end
 
 
-          p "Class Name and Schema Name"
-          p schema_class, schema_name
         # It's possible the schema has already been defined. If so, don't
         # redefine it. This means that reloading a schema which has already
         # been loaded into memory is not possible.
