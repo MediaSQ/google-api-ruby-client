@@ -91,13 +91,24 @@ module Google
               api_name_string, Module.new
             )
           end
-          if api_name.const_defined?(api_version_string, false)
-            api_version = api_name.const_get(api_version_string)
+          if RUBY_VERSION == "1.8.7"
+            if api_name.const_defined?(api_version_string)
+              api_version = api_name.const_get(api_version_string)
+            else
+              api_version = api_name.const_set(api_version_string, Module.new)
+            end
+            if api_version.const_defined?(schema_name)
+              schema_class = api_version.const_get(schema_name)
+            end
           else
-            api_version = api_name.const_set(api_version_string, Module.new)
-          end
-          if api_version.const_defined?(schema_name, false)
-            schema_class = api_version.const_get(schema_name)
+            if api_name.const_defined?(api_version_string, false)
+              api_version = api_name.const_get(api_version_string)
+            else
+              api_version = api_name.const_set(api_version_string, Module.new)
+            end
+            if api_version.const_defined?(schema_name, false)
+              schema_class = api_version.const_get(schema_name)
+            end
           end
         end
 
